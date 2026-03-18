@@ -102,7 +102,7 @@ class Visit(BaseTool):
             "https://api.minimax.io/v1" if os.environ.get("MINIMAX_API_KEY") and not os.environ.get("API_KEY") else None
         )
         model_name = os.environ.get("SUMMARY_MODEL_NAME") or (
-            "MiniMax-M2.5" if os.environ.get("MINIMAX_API_KEY") and not os.environ.get("API_KEY") else ""
+            "MiniMax-M2.7" if os.environ.get("MINIMAX_API_KEY") and not os.environ.get("API_KEY") else ""
         )
         client = OpenAI(
             api_key=api_key,

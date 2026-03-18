@@ -13,13 +13,14 @@ class TextChatAtMiniMax(TextChatAtOAI):
     """LLM provider for MiniMax (OpenAI-compatible API).
 
     MiniMax provides large language models accessible via an OpenAI-compatible
-    API. Supported models include MiniMax-M2.5 and MiniMax-M2.5-highspeed,
-    both offering 204K context length.
+    API. Supported models include MiniMax-M2.7 and MiniMax-M2.7-highspeed
+    (latest flagship with enhanced reasoning and coding), as well as
+    MiniMax-M2.5 and MiniMax-M2.5-highspeed, all offering 204K context length.
 
     Configuration example::
 
         llm_cfg = {
-            'model': 'MiniMax-M2.5',
+            'model': 'MiniMax-M2.7',
             'model_type': 'minimax',
             'generate_cfg': {
                 'temperature': 0.7,
@@ -36,7 +37,7 @@ class TextChatAtMiniMax(TextChatAtOAI):
 
         # Set MiniMax defaults before calling parent __init__
         if not cfg.get('model'):
-            cfg['model'] = 'MiniMax-M2.5'
+            cfg['model'] = 'MiniMax-M2.7'
 
         # Use MiniMax API base URL if no custom server is specified
         if not cfg.get('api_base') and not cfg.get('base_url') and not cfg.get('model_server'):
