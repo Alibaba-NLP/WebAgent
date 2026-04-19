@@ -86,13 +86,15 @@ class Visit(BaseTool):
             api_key=SUMMARY_API_KEY,
             base_url=SUMMARY_URL,
         )
+        # Reasoning models (o1, o3, o4) and some newer models (e.g. gpt-5) do not support
+        # the temperature parameter; skip it for those model families.
+        _NO_TEMPERATURE_PREFIXES = ("o1", "o3", "o4", "gpt-5")
         for attempt in range(max_retries):
             try:
-                chat_response = client.chat.completions.create(
-                    model=SUMMARY_MODEL_NAME,
-                    messages=msgs,
-                    temperature=0.7
-                )
+                create_kwargs = dict(model=SUMMARY_MODEL_NAME, messages=msgs)
+                if not any(SUMMARY_MODEL_NAME.startswith(p) for p in _NO_TEMPERATURE_PREFIXES):
+                    create_kwargs["temperature"] = 0.7
+                chat_response = client.chat.completions.create(**create_kwargs)
                 content = chat_response.choices[0].message.content
                 print(content)
                 if content:
