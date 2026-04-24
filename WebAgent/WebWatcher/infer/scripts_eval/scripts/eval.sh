@@ -115,9 +115,8 @@ else
 fi
 
 
-pip uninstall qwen-agent
-pip install -e vl_search_r1/qwen-agent-o1_search --no-deps
 pip install "qwen-agent[code_interpreter]"
+pip install -e vl_search_r1/qwen-agent-o1_search --no-deps
 
 
 # for i in 1 2 3
