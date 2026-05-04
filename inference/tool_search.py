@@ -11,8 +11,11 @@ import json
 
 import os
 
+from tool_exa import search_with_exa
+
 
 SERPER_KEY=os.environ.get('SERPER_KEY_ID')
+SEARCH_PROVIDER=os.environ.get('SEARCH_PROVIDER', 'serper').lower()
 
 
 @register_tool("search", allow_overwrite=True)
@@ -110,22 +113,27 @@ class Search(BaseTool):
         result = self.google_search_with_serp(query)
         return result
 
+    def _do_search(self, query: str) -> str:
+        if SEARCH_PROVIDER == "exa":
+            return search_with_exa(query)
+        return self.search_with_serp(query)
+
     def call(self, params: Union[str, dict], **kwargs) -> str:
         try:
             query = params["query"]
         except:
             return "[Search] Invalid request format: Input must be a JSON object containing 'query' field"
-        
+
         if isinstance(query, str):
             # 单个查询
-            response = self.search_with_serp(query)
+            response = self._do_search(query)
         else:
             # 多个查询
             assert isinstance(query, List)
             responses = []
             for q in query:
-                responses.append(self.search_with_serp(q))
+                responses.append(self._do_search(q))
             response = "\n=======\n".join(responses)
-            
+
         return response
 
