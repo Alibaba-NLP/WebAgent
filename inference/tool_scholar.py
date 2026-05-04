@@ -6,8 +6,11 @@ from qwen_agent.tools.base import BaseTool, register_tool
 from concurrent.futures import ThreadPoolExecutor
 import http.client
 
+from tool_exa import scholar_with_exa
+
 
 SERPER_KEY=os.environ.get('SERPER_KEY_ID')
+SEARCH_PROVIDER=os.environ.get('SEARCH_PROVIDER', 'serper').lower()
 
 
 @register_tool("google_scholar", allow_overwrite=True)
@@ -91,6 +94,11 @@ class Scholar(BaseTool):
             return f"No results found for '{query}'. Try with a more general query."
 
 
+    def _do_scholar_search(self, query: str) -> str:
+        if SEARCH_PROVIDER == "exa":
+            return scholar_with_exa(query)
+        return self.google_scholar_with_serp(query)
+
     def call(self, params: Union[str, dict], **kwargs) -> str:
         # assert GOOGLE_SEARCH_KEY is not None, "Please set the IDEALAB_SEARCH_KEY environment variable."
         try:
@@ -98,13 +106,13 @@ class Scholar(BaseTool):
             query = params["query"]
         except:
             return "[google_scholar] Invalid request format: Input must be a JSON object containing 'query' field"
-        
+
         if isinstance(query, str):
-            response = self.google_scholar_with_serp(query)
+            response = self._do_scholar_search(query)
         else:
             assert isinstance(query, List)
             with ThreadPoolExecutor(max_workers=3) as executor:
 
-                response = list(executor.map(self.google_scholar_with_serp, query))
+                response = list(executor.map(self._do_scholar_search, query))
             response = "\n=======\n".join(response)
         return response
