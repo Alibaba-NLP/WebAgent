@@ -5,7 +5,6 @@ from typing import Dict, Iterator, List, Literal, Optional, Tuple, Union
 from qwen_agent.llm.schema import Message
 from qwen_agent.utils.utils import build_text_completion_prompt
 from openai import OpenAI, APIError, APIConnectionError, APITimeoutError
-import tiktoken
 from transformers import AutoTokenizer 
 from datetime import datetime
 from qwen_agent.agents.fncall_agent import FnCallAgent
@@ -69,7 +68,6 @@ class MultiTurnReactAgent(FnCallAgent):
         )
 
         base_sleep_time = 1 
-        
         for attempt in range(max_tries):
             try:
                 print(f"--- Attempting to call the service, try {attempt + 1}/{max_tries} ---")
@@ -111,16 +109,13 @@ class MultiTurnReactAgent(FnCallAgent):
         
         return f"vllm server error!!!"
 
-    def count_tokens(self, messages, model="gpt-4o"):
-        try: 
-            tokenizer = AutoTokenizer.from_pretrained(self.llm_local_path) 
-        except Exception as e: 
-            tokenizer = tiktoken.encoding_for_model(model)
+    def count_tokens(self, messages):
+        tokenizer = AutoTokenizer.from_pretrained(self.llm_local_path) 
+        full_prompt = tokenizer.apply_chat_template(messages, tokenize=False)
+        tokens = tokenizer(full_prompt, return_tensors="pt")
+        token_count = len(tokens["input_ids"][0])
         
-        full_message = [Message(**x) for x in messages]
-        full_prompt = build_text_completion_prompt(full_message, allow_special=True)
-        
-        return len(tokenizer.encode(full_prompt))
+        return token_count
 
     def _run(self, data: str, model: str, **kwargs) -> List[List[Message]]:
         self.model=model
@@ -188,7 +183,7 @@ class MultiTurnReactAgent(FnCallAgent):
             if num_llm_calls_available <= 0 and '<answer>' not in content:
                 messages[-1]['content'] = 'Sorry, the number of llm calls exceeds the limit.'
 
-            max_tokens = 108 * 1024
+            max_tokens = 110 * 1024
             token_count = self.count_tokens(messages)
             print(f"round: {round}, token count: {token_count}")
 

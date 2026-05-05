@@ -162,7 +162,7 @@ if __name__ == "__main__":
                     BUTTON_URL_ADIC = {}
                     ROOT_URL = website
                     with open("ROOT_URL.txt", "w") as f:
-                        f.write("https://2025.aclweb.org/")
+                        f.write(ROOT_URL)
                     messages = []  # This stores the chat history.
                     visited_links = []
                     start_prompt = "query:\n{query} \nofficial website:\n{website}".format(query=query, website=website)

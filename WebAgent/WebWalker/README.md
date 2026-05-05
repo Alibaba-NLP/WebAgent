@@ -133,8 +133,8 @@ crawl4ai-doctor
 🔑 Before running, please export the OPENAI API key or Dashscope API key as an environment variable:
 
 ```bash
-export OPEN_AI_API_KEY=YOUR_API_KEY
-export OPEN_AI_API_BASE_URL=YOUR_API_BASE_URL
+export OPENAI_API_KEY=YOUR_API_KEY
+export OPENAI_API_BASE_URL=YOUR_API_BASE_URL
 ```
 
 or

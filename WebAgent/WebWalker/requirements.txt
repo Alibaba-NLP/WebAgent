@@ -10,3 +10,4 @@ volcengine-python-sdk
 langchain
 langchain-community
 langchain-core
+streamlit
