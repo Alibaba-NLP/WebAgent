@@ -12,6 +12,23 @@
 [![GITHUB](https://img.shields.io/badge/Github-24292F?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Alibaba-NLP/DeepResearch)
 [![Blog](https://img.shields.io/badge/Blog-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white)](https://tongyi-agent.github.io/blog/introducing-tongyi-deep-research/)
 [![Paper](https://img.shields.io/badge/Paper-red?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/pdf/2510.24701)
+[![Sponsor](https://img.shields.io/badge/Sponsor-GitHub-pink?logo=github)](https://github.com/sponsors/pichaitk)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-orange?logo=ko-fi)](https://ko-fi.com/pichaitk)
+[![Coffee](https://img.shields.io/badge/Coffee-Support-yellow?logo=buymeacoffee)](https://buymeacoffee.com/pichaitk)
+![AI](https://img.shields.io/badge/AI-Powered-blueviolet)
+![PDPA](https://img.shields.io/badge/PDPA-Compliant-green)
+![SaaS](https://img.shields.io/badge/SaaS-Ready-orange)
+![Security](https://img.shields.io/badge/Security-Advanced-red)
+![SaaS](https://img.shields.io/badge/SaaS-Ready-orange)
+![License](https://img.shields.io/badge/license-MIT%20%2F%20GPLv3-black)
+![Sponsor](https://img.shields.io/badge/Sponsor-GitHub-pink?logo=github)
+![Donate](https://img.shields.io/badge/Donate-Support-red)
+![Ko-fi](https://img.shields.io/badge/Ko--fi-orange?logo=ko-fi)
+![Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-yellow?logo=buymeacoffee)
+[![Sponsor](https://img.shields.io/badge/Sponsor-GitHub-pink?logo=github)](https://github.com/sponsors/pichaitk)
+[![BuyMeCoffee](https://img.shields.io/badge/Coffee-Support-yellow?logo=buymeacoffee)](https://buymeacoffee.com/pichaitk)
+[![Buy Me a Coffee](https://img.shields.io/badge/Coffee-Support-yellow?logo=buymeacoffee)](https://buymeacoffee.com/pichaitk)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S51Z3T2G)
 
 </div>
 <p align="center">
