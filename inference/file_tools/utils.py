@@ -230,7 +230,14 @@ pattern = r'<(p|span|div|li|html|script)[^>]*?'
     return bool(re.search(pattern, text, flags=re.IGNORECASE))
      
 
+file_content = str(results.best())
+return file_content
 
+
+def contains_html_tags(text: str) -> bool:
+pattern = r'<(p|span|div|li|html|script)[^>]*?'
+    return bool(re.search(pattern, text, flags=re.IGNORECASE))
+     
 def get_content_type_by_head_request(path: str) -> str:
     try:
         response = requests.head(path, timeout=5)
