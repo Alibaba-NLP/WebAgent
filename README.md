@@ -28,7 +28,7 @@
 [![Sponsor](https://img.shields.io/badge/Sponsor-GitHub-pink?logo=github)](https://github.com/sponsors/pichaitk)
 [![BuyMeCoffee](https://img.shields.io/badge/Coffee-Support-yellow?logo=buymeacoffee)](https://buymeacoffee.com/pichaitk)
 [![Buy Me a Coffee](https://img.shields.io/badge/Coffee-Support-yellow?logo=buymeacoffee)](https://buymeacoffee.com/pichaitk)
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S51Z3T2G)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S51Z3T2G) 
 
 </div>
 <p align="center">
