@@ -1,0 +1,64 @@
+# These are supported funding model platforms
+
+github: [pichaitk]
+patreon: pichaitk
+open_collective: pichaitk
+ko_fi: pichaitk
+tidelift: npm/pichaitk-ai-hub
+community_bridge: pichaitk-ai-hub
+liberapay: pichaitk
+issuehunt: pichaitk
+lfx_crowdfunding: pichaitk-ai-hub
+polar: pichaitk
+buy_me_a_coffee: pichaitk
+thanks_dev: pichaitk
+custom:
+  - https://pichaitk.com/donate
+  - https://app.pichaitk.com/support
+  - https://pichaitk.com/sponsor
+  - https://pichaitk.com/coffe 
+
+# PichaiTK Funding Configuration (Full Integrated)
+
+# =========================
+# Core Platforms (แนะนำให้มีจริง)
+# =========================
+github: [pichaitk]
+
+ko_fi: pichaitk
+buy_me_a_coffee: pichaitk
+
+# =========================
+# Creator / Community
+# =========================
+patreon: pichaitk
+open_collective: pichaitk
+
+# =========================
+# Open Source / Ecosystem
+# =========================
+tidelift: npm/pichaitk-ai-hub
+community_bridge: pichaitk-ai-hub
+lfx_crowdfunding: pichaitk-ai-hub
+
+# =========================
+# Additional Platforms
+# =========================
+liberapay: pichaitk
+issuehunt: pichaitk
+polar: pichaitk
+thanks_dev: pichaitk
+
+# =========================
+# Custom Links (สำคัญที่สุด)
+# =========================
+custom:
+  # 💰 Donation Pages
+  - https://pichaitk.com/donate
+  - https://pichaitk.com/sponsor
+
+  # 🤖 Your AI / SaaS System
+  - https://app.pichaitk.com/support
+
+  # ☕ Alternative support
+  - https://pichaitk.com/coffe
