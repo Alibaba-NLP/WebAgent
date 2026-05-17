@@ -161,6 +161,8 @@ def doubao_api(ds, output_path):
                     {"role": "user", "content": data["question"]}
                 ]
             )
+            if not completion.choices or completion.choices[0].message is None:
+                raise ValueError("LLM returned empty or filtered response")
             return completion.choices[0].message.content
         except Exception as e:
             print(f"Error: {e}")
@@ -210,6 +212,8 @@ def kimi_api(ds, output_path):
                     "function": {"name": "$web_search"}
                 }]
             )
+            if not completion.choices:
+                raise ValueError("LLM returned empty choices")
             return completion.choices[0]
         except Exception as e:
             print(f"Error: {e}")

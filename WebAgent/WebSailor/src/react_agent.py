@@ -55,6 +55,8 @@ class MultiTurnReactAgent(FnCallAgent):
                     temperature=self.llm_generate_cfg.get('temperature', 0.6),
                     top_p=self.llm_generate_cfg.get('top_p', 0.95),
                 )
+                if not chat_response.choices or chat_response.choices[0].message is None:
+                    raise ValueError("LLM returned empty or filtered response")
                 content = chat_response.choices[0].message.content
                 if content:
                     return content

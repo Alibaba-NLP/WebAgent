@@ -111,6 +111,8 @@ class Visit(BaseTool):
                     messages=msgs,
                     temperature=0.7
                 )
+                if not chat_response.choices or chat_response.choices[0].message is None:
+                    raise ValueError("LLM returned empty or filtered response")
                 content = chat_response.choices[0].message.content
                 if content:
                     try:
