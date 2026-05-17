@@ -588,6 +588,8 @@ class VideoAnalysis(BaseTool):
                 messages=messages,
                 temperature=0.3,
             )
+            if not response.choices or response.choices[0].message is None:
+                raise ValueError("LLM returned empty or filtered response")
             return response.choices[0].message.content
         except Exception as e:
             logger.error(f"AI analysis failed: {str(e)}")

@@ -58,6 +58,8 @@ class WebWalker(FnCallAgent):
                     response_format={"type": "json_object"},
                     messages=messages
                 )
+                if not response.choices or response.choices[0].message is None:
+                    raise ValueError("LLM returned empty or filtered response")
                 print(response.choices[0].message.content)
                 # response_content = json.loads(response.choices[0].message.content)
                 if "true" in response.choices[0].message.content:
@@ -93,6 +95,8 @@ class WebWalker(FnCallAgent):
                     response_format={"type": "json_object"},
                     messages=messages
                 )
+                if not response.choices or response.choices[0].message is None:
+                    raise ValueError("LLM returned empty or filtered response")
                 print(response.choices[0].message.content)
                 if "true" in response.choices[0].message.content:
                     try:

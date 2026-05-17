@@ -81,6 +81,8 @@ class MultiTurnReactAgent(FnCallAgent):
                     max_tokens=10000,
                     presence_penalty=self.llm_generate_cfg.get('presence_penalty', 1.1)
                 )
+                if not chat_response.choices or chat_response.choices[0].message is None:
+                    raise ValueError("LLM returned empty or filtered response")
                 content = chat_response.choices[0].message.content
 
                 # OpenRouter provides API calling. If you want to use OpenRouter, you need to uncomment line 89 - 90.

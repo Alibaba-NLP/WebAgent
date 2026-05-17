@@ -42,6 +42,8 @@ def call_llm_judge(item):
                                     model='qwen2.5-72b-instruct',
                                     messages=[{"role": "user", "content": prompt}],
                 )    
+                if not chat_response.choices or chat_response.choices[0].message is None:
+                    raise ValueError("LLM returned empty or filtered response")
                 response = chat_response.choices[0].message.content
                 if response:
                     break

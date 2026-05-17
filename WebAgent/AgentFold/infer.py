@@ -112,6 +112,8 @@ def get_llm_response_nonstream(prompt, check_func_list=[]):
         presence_penalty=1.1
     )
 
+    if not response.choices:
+        raise ValueError("LLM returned empty choices")
     return response.choices[0].text
 
 def execute_tool(llm_generated_response):

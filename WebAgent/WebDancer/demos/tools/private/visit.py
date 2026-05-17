@@ -124,6 +124,8 @@ class Visit(BaseTool):
                 messages=messages,
                 response_format={"type": "json_object"},
             )
+            if not response.choices or response.choices[0].message is None:
+                raise ValueError("LLM returned empty or filtered response")
             return response.choices[0].message.content
         return ""
 

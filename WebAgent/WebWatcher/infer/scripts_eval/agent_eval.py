@@ -228,6 +228,8 @@ class OmniSearch:
                         top_p=0.95,
                         temperature=0.6
                     )
+                    if not response.choices or response.choices[0].message is None:
+                        raise ValueError("LLM returned empty or filtered response")
                     response_content = response.choices[0].message.content
                     # break
                     if response_content:
