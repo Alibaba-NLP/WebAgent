@@ -182,7 +182,7 @@ You need to modify the following in the file [inference/react_agent.py](https://
 
 ### 7. Using MiniMax as the Summary Model
 
-[MiniMax](https://platform.minimaxi.com/) provides OpenAI-compatible LLM APIs that can be used as the summary model for page summarization. MiniMax models (e.g., `MiniMax-M2.7`, `MiniMax-M2.7-highspeed`) offer 204K context length and enhanced reasoning and coding capabilities, which are well-suited for long document summarization tasks.
+[MiniMax](https://platform.minimaxi.com/) provides OpenAI-compatible LLM APIs that can be used as the summary model for page summarization. The default model is `MiniMax-M3` (512K context length, 128K max output, supports image input, latest flagship). `MiniMax-M2.7` is also supported for backward compatibility.
 
 **Option A: Set MiniMax as the summary model directly**
 
@@ -191,12 +191,12 @@ In your `.env` file:
 ```bash
 API_KEY=your_minimax_api_key
 API_BASE=https://api.minimax.io/v1
-SUMMARY_MODEL_NAME=MiniMax-M2.7
+SUMMARY_MODEL_NAME=MiniMax-M3
 ```
 
 **Option B: Use MINIMAX_API_KEY as a fallback**
 
-If `API_KEY` is not set, the system will automatically fall back to using `MINIMAX_API_KEY` with MiniMax's API endpoint:
+If `API_KEY` is not set, the system will automatically fall back to using `MINIMAX_API_KEY` with MiniMax's API endpoint and `MiniMax-M3` as the default model:
 
 ```bash
 MINIMAX_API_KEY=your_minimax_api_key
@@ -210,11 +210,11 @@ MiniMax is also registered as an LLM provider in the qwen-agent framework. You c
 from qwen_agent.llm import get_chat_model
 
 # Auto-detected by model name
-llm = get_chat_model({'model': 'MiniMax-M2.7'})
+llm = get_chat_model({'model': 'MiniMax-M3'})
 
 # Or explicitly specify the provider
 llm = get_chat_model({
-    'model': 'MiniMax-M2.7',
+    'model': 'MiniMax-M3',
     'model_type': 'minimax',
     'generate_cfg': {
         'temperature': 0.7,
