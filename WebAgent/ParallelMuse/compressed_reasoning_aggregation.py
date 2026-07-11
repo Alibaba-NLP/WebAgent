@@ -172,7 +172,7 @@ async def call_state_report(sem, traj, max_retries=10):
                     {'role': 'user', 'content': user_input}
                 ]
 
-                response = await get_llm_response(messages, max_tokens, data_path)
+                response = await get_llm_response(messages, max_tokens)
                 response = response.split('</think>')[-1].strip()
                 if "Error getting visit response" in response:
                     raise Exception(response)
@@ -225,7 +225,7 @@ async def call_info_integrate(sem, question, report_group, max_retries=10):
                 response = None
 
     if response is None:
-        return "[Error getting integrated answer]"
+        return 0, "[Error getting integrated answer]"
 
     final_answer = response.split("<answer>")[-1].split("</answer>")[0].strip()
     print(f"Obtained Integrated Answer: {final_answer}")
@@ -270,7 +270,7 @@ async def main():
             if 'prediction' in traj.keys() and traj['prediction'] != '[No Prediction]':
                 filtered_cluster.append(traj)
     
-        tasks.append(call_converge(sem, filtered_cluster, data_path))
+        tasks.append(call_converge(sem, filtered_cluster))
 
     results = []
 
