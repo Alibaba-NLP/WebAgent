@@ -100,6 +100,7 @@ cp .env.example .env
 Edit the `.env` file and provide your actual API keys and configuration values:
 
 - **SERPER_KEY_ID**: Get your key from [Serper.dev](https://serper.dev/) for web search and Google Scholar
+- **EXA_API_KEY**: Get your key from [Exa](https://dashboard.exa.ai/api-keys) for the `search` tool. Set `SEARCH_PROVIDER=exa` to select it, or leave `SEARCH_PROVIDER` unset and it is used automatically when `SERPER_KEY_ID` is absent
 - **JINA_API_KEYS**: Get your key from [Jina.ai](https://jina.ai/) for web page reading
 - **API_KEY/API_BASE**: OpenAI-compatible API for page summarization from [OpenAI](https://platform.openai.com/)
 - **DASHSCOPE_API_KEY**: Get your key from [Dashscope](https://dashscope.aliyun.com/) for file parsing

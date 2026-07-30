@@ -13,6 +13,8 @@ import os
 
 
 SERPER_KEY=os.environ.get('SERPER_KEY_ID')
+EXA_API_KEY=os.environ.get('EXA_API_KEY')
+SEARCH_PROVIDER=os.environ.get('SEARCH_PROVIDER') or ('exa' if EXA_API_KEY and not SERPER_KEY else 'serper')
 
 
 @register_tool("search", allow_overwrite=True)
@@ -106,7 +108,63 @@ class Search(BaseTool):
 
 
     
+    def exa_search(self, query: str):
+        payload = {
+            "query": query,
+            "type": "auto",
+            "numResults": 10,
+            "contents": {"highlights": True},
+        }
+        headers = {
+            'x-api-key': EXA_API_KEY,
+            'Content-Type': 'application/json',
+            'x-exa-integration': 'Alibaba-NLP/DeepResearch-integration',
+        }
+
+        results = None
+        for i in range(5):
+            try:
+                response = requests.post(
+                    "https://api.exa.ai/search",
+                    json=payload,
+                    headers=headers,
+                    timeout=30,
+                )
+                response.raise_for_status()
+                results = response.json()
+                break
+            except Exception as e:
+                print(e)
+                if i == 4:
+                    return f"Exa search Timeout, return None, Please try again later."
+                continue
+
+        try:
+            web_snippets = list()
+            for idx, page in enumerate(results.get("results", []), start=1):
+                date_published = ""
+                if page.get("publishedDate"):
+                    date_published = "\nDate published: " + page["publishedDate"]
+
+                source = ""
+                if page.get("author"):
+                    source = "\nSource: " + page["author"]
+
+                snippet = ""
+                if page.get("highlights"):
+                    snippet = "\n" + " ... ".join(page["highlights"])
+
+                web_snippets.append(
+                    f"{idx}. [{page.get('title') or page.get('url')}]({page.get('url')}){date_published}{source}\n{snippet}"
+                )
+
+            return f"An Exa search for '{query}' found {len(web_snippets)} results:\n\n## Web Results\n" + "\n\n".join(web_snippets)
+        except:
+            return f"No results found for '{query}'. Try with a more general query."
+
     def search_with_serp(self, query: str):
+        if SEARCH_PROVIDER == 'exa':
+            return self.exa_search(query)
         result = self.google_search_with_serp(query)
         return result
 
