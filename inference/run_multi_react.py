@@ -164,9 +164,13 @@ if __name__ == "__main__":
             'model_type': 'qwen_dashscope'
         }
 
+        function_list = ["search", "visit", "google_scholar", "PythonInterpreter", "parse_file"]
+        if os.getenv("XQUIK_API_KEY"):
+            function_list.append("x_search")
+
         test_agent = MultiTurnReactAgent(
             llm=llm_cfg,
-            function_list=["search", "visit", "google_scholar", "PythonInterpreter"]
+            function_list=function_list,
         )
 
         write_locks = {i: threading.Lock() for i in range(1, roll_out_count + 1)}

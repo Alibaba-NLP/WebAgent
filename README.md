@@ -100,6 +100,7 @@ cp .env.example .env
 Edit the `.env` file and provide your actual API keys and configuration values:
 
 - **SERPER_KEY_ID**: Get your key from [Serper.dev](https://serper.dev/) for web search and Google Scholar
+- **XQUIK_API_KEY**: Optional. Get your key from [Xquik](https://xquik.com/) to enable current X post and tweet search
 - **JINA_API_KEYS**: Get your key from [Jina.ai](https://jina.ai/) for web page reading
 - **API_KEY/API_BASE**: OpenAI-compatible API for page summarization from [OpenAI](https://platform.openai.com/)
 - **DASHSCOPE_API_KEY**: Get your key from [Dashscope](https://dashscope.aliyun.com/) for file parsing
@@ -165,6 +166,9 @@ project_root/
 ```bash
 bash run_react_infer.sh
 ```
+
+When `XQUIK_API_KEY` is configured, the agent also receives an `x_search` tool. It uses the published [Xquik Search Tweets API](https://docs.xquik.com/api-reference/x/search-tweets) for recent public discussions, first-party posts, hashtags, and X search operators. The tool is read-only, returns up to 20 posts per query, and reminds the agent to verify important claims with other sources. Returned posts consume Xquik credits.
+
 ---
 
 With these steps, you can fully prepare the environment, configure the dataset, and run the model. For more details, consult the inline comments in each script or open an issue.
