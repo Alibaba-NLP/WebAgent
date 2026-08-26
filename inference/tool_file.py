@@ -95,7 +95,7 @@ async def file_parser(params, **kwargs):
     else:
         return compress(file_results)
 
-# @register_tool("file_parser")
+@register_tool("parse_file", allow_overwrite=True)
 class FileParser(BaseTool):
     name = "parse_file"
     description = "This is a tool that can be used to parse multiple user uploaded local files such as PDF, DOCX, PPTX, TXT, CSV, XLSX, DOC, ZIP, MP4, MP3."

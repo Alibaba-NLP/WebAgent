@@ -11,7 +11,7 @@ from qwen_agent.agents.fncall_agent import FnCallAgent
 from qwen_agent.llm import BaseChatModel
 from qwen_agent.llm.schema import ASSISTANT, DEFAULT_SYSTEM_MESSAGE, Message
 from qwen_agent.settings import MAX_LLM_CALL_PER_RUN
-from qwen_agent.tools import BaseTool
+from qwen_agent.tools import BaseTool, TOOL_REGISTRY
 from qwen_agent.utils.utils import format_as_text_message, merge_generate_cfgs
 from prompt import *
 import time
@@ -22,20 +22,21 @@ from tool_scholar import *
 from tool_python import *
 from tool_search import *
 from tool_visit import *
+from tool_x_search import *
+from tool_configuration import resolve_tools
 
 OBS_START = '<tool_response>'
 OBS_END = '\n</tool_response>'
 
 MAX_LLM_CALL_PER_RUN = int(os.getenv('MAX_LLM_CALL_PER_RUN', 100))
 
-TOOL_CLASS = [
-    FileParser(),
-    Scholar(),
-    Visit(),
-    Search(),
-    PythonInterpreter(),
+DEFAULT_FUNCTION_LIST = [
+    "parse_file",
+    "google_scholar",
+    "visit",
+    "search",
+    "PythonInterpreter",
 ]
-TOOL_MAP = {tool.name: tool for tool in TOOL_CLASS}
 
 import random
 import datetime
@@ -50,6 +51,9 @@ class MultiTurnReactAgent(FnCallAgent):
                  llm: Optional[Union[Dict, BaseChatModel]] = None,
                  **kwargs):
 
+        selected_tools = DEFAULT_FUNCTION_LIST if function_list is None else function_list
+        self.tool_map = resolve_tools(selected_tools, TOOL_REGISTRY)
+        self.system_prompt = build_system_prompt(self.tool_map.values())
         self.llm_generate_cfg = llm["generate_cfg"]
         self.llm_local_path = llm["model"]
 
@@ -129,7 +133,7 @@ class MultiTurnReactAgent(FnCallAgent):
         planning_port = data['planning_port']
         answer = data['item']['answer']
         self.user_prompt = question
-        system_prompt = SYSTEM_PROMPT
+        system_prompt = self.system_prompt
         cur_date = today_date()
         system_prompt = system_prompt + str(cur_date)
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": question}]
@@ -162,7 +166,7 @@ class MultiTurnReactAgent(FnCallAgent):
                     if "python" in tool_call.lower():
                         try:
                             code_raw=content.split('<tool_call>')[1].split('</tool_call>')[0].split('<code>')[1].split('</code>')[0].strip()
-                            result = TOOL_MAP['PythonInterpreter'].call(code_raw)
+                            result = self.tool_map['PythonInterpreter'].call(code_raw)
                         except:
                             result = "[Python Interpreter Error]: Formatting error."
 
@@ -226,20 +230,19 @@ class MultiTurnReactAgent(FnCallAgent):
         return result
 
     def custom_call_tool(self, tool_name: str, tool_args: dict, **kwargs):
-        if tool_name in TOOL_MAP:
-            tool_args["params"] = tool_args
+        if tool_name in self.tool_map:
             if "python" in tool_name.lower():
-                result = TOOL_MAP['PythonInterpreter'].call(tool_args)
+                result = self.tool_map['PythonInterpreter'].call(tool_args)
             elif tool_name == "parse_file":
                 params = {"files": tool_args["files"]}
                 
-                raw_result = asyncio.run(TOOL_MAP[tool_name].call(params, file_root_path="./eval_data/file_corpus"))
+                raw_result = asyncio.run(self.tool_map[tool_name].call(params, file_root_path="./eval_data/file_corpus"))
                 result = raw_result
 
                 if not isinstance(raw_result, str):
                     result = str(raw_result)
             else:
-                raw_result = TOOL_MAP[tool_name].call(tool_args, **kwargs)
+                raw_result = self.tool_map[tool_name].call(tool_args, **kwargs)
                 result = raw_result
             return result
 
